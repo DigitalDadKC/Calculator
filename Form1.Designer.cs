@@ -263,7 +263,7 @@
             this.labelCurrentOperation.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCurrentOperation.Location = new System.Drawing.Point(12, 9);
             this.labelCurrentOperation.Name = "labelCurrentOperation";
-            this.labelCurrentOperation.Size = new System.Drawing.Size(106, 23);
+            this.labelCurrentOperation.Size = new System.Drawing.Size(274, 23);
             this.labelCurrentOperation.TabIndex = 21;
             // 
             // Form1
