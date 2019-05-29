@@ -23,40 +23,57 @@ namespace Calculator
             InitializeComponent();
         }
 
-        private void button_click(object sender, EventArgs e)
+        private void Button_click(object sender, EventArgs e)
         {
             if ((textBox1.Text == "0")||(isOperationPerformed))
                 textBox1.Clear();
             Button button = (Button)sender;
-            if(button.Text == ".")
+            if (button.Text == ".") {
+                if (!textBox1.Text.Contains(".")) {
+                    textBox1.Text += button.Text;
+                }
+            }
+            else
             {
-                if (!textBox1.Text.Contains("."))
-                    textBox1.Text = textBox1.Text + button.Text;
-            }else
-            textBox1.Text = textBox1.Text + button.Text;
+                textBox1.Text += button.Text;
+            }
             if (isOperationPerformed)
             {
-                labelCurrentOperation.Text = labelCurrentOperation.Text + textBox1.Text;
+                labelCurrentOperation.Text += textBox1.Text;
             }else
+            {
+                if (labelCurrentOperation.Text.Contains("+")||labelCurrentOperation.Text.Contains("-")|| labelCurrentOperation.Text.Contains("*")|| labelCurrentOperation.Text.Contains("/"))
+                {
+                    labelCurrentOperation.Text += button.Text;
+                }
+                else
                 {
                     labelCurrentOperation.Text = textBox1.Text;
                 }
+            }
             isOperationPerformed = false;
             clearEntry = false;
             isEqual = false;
             isButtonPressed = true;
         }
 
-        private void operator_click(object sender, EventArgs e)
+        private void Operator_click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             operationPerformed = button.Text;
             resultValue = Double.Parse(textBox1.Text);
-            if (labelCurrentOperation.Text != "")
+            if(isOperationPerformed)
             {
-                //btnEqual.PerformClick();
+                if (!labelCurrentOperation.Text.Contains(operationPerformed))
+                {
+                    operationPerformed = button.Text;
+                    labelCurrentOperation.Text = labelCurrentOperation.Text.Remove(labelCurrentOperation.Text.Length - 2);
+                    labelCurrentOperation.Text = labelCurrentOperation.Text + operationPerformed + " ";
+                }
+            }else
+            {
+                labelCurrentOperation.Text = labelCurrentOperation.Text + " " + operationPerformed + " ";
             }
-            labelCurrentOperation.Text = labelCurrentOperation.Text + " " + operationPerformed + " ";
             isOperationPerformed = true;
             clearEntry = false;
             isEqual = false;
@@ -82,10 +99,7 @@ namespace Calculator
 
         private void btnEqual_Click(object sender, EventArgs e)
         {
-            if (isEqual)
-            {
-            }
-            else
+            if (!isEqual)
             {
                 switch (operationPerformed)
                 {
@@ -108,6 +122,12 @@ namespace Calculator
             resultValue = Double.Parse(textBox1.Text);
             isEqual = true;
             isButtonPressed = false;
+        }
+
+        private void TextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), "\\d+"))
+                e.Handled = true;
         }
     }
 }
